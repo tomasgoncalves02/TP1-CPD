@@ -27,12 +27,11 @@ def find_max_prime_in_range(min_number, max_number):
             number -= 1
     return max_prime
 
-def find_max_prime_parallel(timeout):
+def find_max_prime_parallel(timeout, num_processes):
     """Finds the largest prime within the given timeout using parallel processing."""
     start_time = time.time()
-    num_processes = multiprocessing.cpu_count()
     max_prime = 0
-    increment = 10**12  # Aumenta de 10^7 a cada iteração
+    increment = 10**14  # Increases by 10^7 at each iteration
 
     while time.time() - start_time < timeout:
         pool = multiprocessing.Pool(processes=num_processes)
@@ -48,7 +47,10 @@ def find_max_prime_parallel(timeout):
 
         max_prime = max(result.get() for result in results)
 
-    print("Maximum prime found within", timeout, "seconds:", max_prime)
+    num_digits = len(str(max_prime))
+    print(f"{num_processes: <12}| {timeout: <5}s | {max_prime: <20} | ({num_digits})")
 
 if __name__ == '__main__':
-    find_max_prime_parallel(1)  # Procurar o maior número primo possível em 5 segundos
+    print("Nº Processos | Tempo | Maior primo | (nº dígitos)")
+    for timeout, num_processes in [(5, 4), (20, 4), (20, 8), (60, 4), (60, 8)]:
+        find_max_prime_parallel(timeout, num_processes)
