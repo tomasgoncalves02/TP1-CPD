@@ -1,10 +1,9 @@
 import time
 import math
 import multiprocessing
-import threading
 
-# Definição de um semáforo para controlar o acesso concorrente aos resultados
-result_semaphore = threading.Semaphore()
+# Definição de um lock para controlar o acesso concorrente aos resultados
+result_lock = multiprocessing.Lock()
 
 def is_prime(n):
     """Check if n is prime."""
@@ -28,14 +27,15 @@ def find_max_prime_in_range(min_number, max_number, results):
         if is_prime(number):
             max_prime = number
             break
-    # Utiliza semáforo para controlar o acesso concorrente aos resultados
-    with result_semaphore:
+    # Utiliza lock para controlar o acesso concorrente aos resultados
+    with result_lock:
         results.append(max_prime)
 
 def find_max_prime_parallel(timeout, num_processes):
     """Finds the largest prime within the given timeout using parallel processing."""
-    results = multiprocessing.Manager().list()
-    increment = 10**14  # Aumenta de 10^7 a cada iteração
+    manager = multiprocessing.Manager()
+    results = manager.list()
+    increment = 10**14
 
     start_time = time.time()
     while time.time() - start_time < timeout:
@@ -51,7 +51,7 @@ def find_max_prime_parallel(timeout, num_processes):
         pool.join()
 
         max_prime = max(results)
-        increment *= 2  # Dobra o incremento a cada iteração
+        increment *= 2
 
     num_digits = len(str(max_prime))
     print(f"{num_processes: <12}| {timeout: <5}s | {max_prime: <20} | ({num_digits})")
