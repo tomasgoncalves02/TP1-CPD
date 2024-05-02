@@ -50,10 +50,7 @@ def find_max_prime_parallel(timeout, num_processes):
         pool.close()
         pool.join()
 
-        # Evita concorrência ao acessar a lista de resultados
-        with result_lock:
-            max_prime = max(results)
-
+        max_prime = max(results)
         increment *= 2
 
     num_digits = len(str(max_prime))
