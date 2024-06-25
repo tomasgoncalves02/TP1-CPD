@@ -1,5 +1,4 @@
 import time
-import math
 import multiprocessing
 
 # Definição de um lock para controlar o acesso concorrente aos resultados
@@ -50,7 +49,9 @@ def find_max_prime_parallel(timeout, num_processes):
         pool.close()
         pool.join()
 
-        max_prime = max(results)
+        with result_lock:
+            max_prime = max(results)
+
         increment *= 2
 
     num_digits = len(str(max_prime))

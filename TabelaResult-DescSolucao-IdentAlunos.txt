@@ -1,0 +1,16 @@
+Identificação dos alunos:
+
+André Rolo Nº202100728
+Tomás Gonçalves Nº202100744
+
+
+Tabela de Resultados:
+
+Nº Processos| Tempo  | Maior primo          | (nº dígitos)
+4           | 5    s | 6399999999999973     | (16)
+4           | 20   s | 51199999999999999    | (17)
+8           | 20   s | 25599999999999949    | (17)
+4           | 60   s | 409599999999999979   | (18)
+8           | 60   s | 204799999999999933   | (18)
+
+Descrição da solução: encontrar o maior número primo dentro de um intervalo num período de tempo limitado
